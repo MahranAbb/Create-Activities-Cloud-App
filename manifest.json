@@ -3,7 +3,7 @@
    "title": "Esploro Activities Loader",
    "subtitle": "Create Activities from Esploro Assets",
    "author": "Exlibris",
-   "description": "This app can be used to create activities from assets and etd's.",
+   "description": "This app can be used to create activities from assets and etd's. This is a Beta version",
    "pages": {
       "settings": "/#/settings",
       "help": "https://github.com/jweisman/alma-refine/wiki/Help"
