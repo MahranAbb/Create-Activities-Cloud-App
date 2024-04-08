@@ -1,0 +1,74 @@
+{
+	"OK": "OK",
+  "Cancel": "Cancel",
+	"Main": {
+		"CreateActivities": "Create Activities",
+		"DisplayedIds": "Create activities from {{length}} records on this page",
+		"DisplayedRecords": "Displayed Records",
+		"SelectRecords": "Select Records",
+		"Intro": "To begin creating activities, navigate to a list of assets or select a set.",
+		"SelectSet": "Set"
+	},
+	"Result": {
+		"MMS": "MMS ID",
+		"Title": "Title",
+		"Activity": "Title",
+		"ActivityCreated": "Success!",
+		"ActivityFailed": "Failed!",
+		"Back": "Back",
+		"ActivitiesList": "Activities List"
+	},
+	"SetSelect": {
+		"SelectSet": "Select a set"
+	},
+	"Settings": {
+		"Title": "Settings",
+		"Back": "Back",
+		"General": "General",
+		"Visibility": "Activities visible in public profile",
+		"Language": "Activities Language",
+		"DataMapping": "Data Mapping",
+		"DataMappingToolTip": "(all applicable mappings will be used for each asset selected)",
+		"Fields": "Fields",
+		"Save": "Save",
+		"Reset": "Reset",
+		"Discard": "Discard unsaved changes?",
+		"Saved": "Settings successfully saved",
+		"RestoreDefault": "Restore default",
+		"RestoreConfirm": "Restore default settings and lose all local configuration?",
+		"Add": "Add New Mapping",
+		"AddMapping": "Add New Mapping",
+    "Rename": "Rename",
+    "Edit": "Edit",
+    "Delete": "Delete",
+    "Name": "Name",
+    "Exists": "\"{name}\" already exists.",
+		"ConfirmDelete": "Are you sure you want to delete \"{name}\"",
+		"MappingDef": {
+			"Name": "Name",
+			"AssetCategory": "Asset Category",
+			"AssetType": "Asset Type",
+			"CreatorRole": "Creator Role",
+			"ActivityCategory": "Activity Category",
+			"ActivityType": "Activity Type",
+			"ActivityResearcherRole": "Activity Researcher Role",
+			"Fields": "Fields",
+			"FieldHeader": "Field #{index}",
+			"Tag": "Tag",
+			"Subfield": "Subfield",
+			"Indexes": "Indexes",
+			"Subfield2": "Subfield 2",
+			"Hints": "Hint subfields",
+			"AddHint": "Add...",
+			"AddSubfield2": "Add...",
+			"AddField": "Add field",
+			"RemoveField": "Remove field?",
+			"Errors": {
+				"Name": "Name is required",
+				"Tag": "Invalid field",
+				"Subfield": "Invalid subfield"
+			}
+
+		}
+	}
+}

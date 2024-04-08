@@ -1,0 +1,52 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{form.controls.name.value}}
+      </mat-panel-title>
+      <mat-panel-description>
+        <i class="uxf-icon uxf-trash eca-button" (click)="$event.stopPropagation(); deleteService()" attr.aria-label="{{'Settings.Delete'|translate}}" title="{{'Settings.Delete'|translate}}"></i>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.Name</mat-label>
+      <input matInput type="text" [formControl]="form.controls.name" required>
+      <mat-error *ngIf="form.controls.name.invalid" translate>Settings.ServiceDef.Errors.Name</mat-error>
+    </mat-form-field>  
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.AssetCategory</mat-label>
+      <mat-select [formControl]="form.controls.assetCategory" (selectionChange)="onAssetCategorySelected($event)" [compareWith]="compareAssetCategory">
+        <mat-option *ngFor="let cat of assetCategoryList" [value]="cat.code">{{cat.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.AssetType</mat-label>
+      <mat-select [formControl]="form.controls.assetType">
+        <mat-option *ngFor="let cat of assetTypeList" [value]="cat.code">{{cat.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.CreatorRole</mat-label>
+      <mat-select [formControl]="form.controls.creatorRole">
+        <mat-option *ngFor="let val of esploroContributortypes" [value]="val.description">{{val.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.ActivityCategory</mat-label>
+      <mat-select [formControl]="form.controls.activityCategory">
+        <mat-option *ngFor="let val of esploroActivityCategories" [value]="val.code">{{val.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>  
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.ActivityType</mat-label>
+      <mat-select [formControl]="form.controls.activityType">
+        <mat-option *ngFor="let val of esploroActivityTypes" [value]="val.code">{{val.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>         
+    <mat-form-field class="full-width">
+      <mat-label translate>Settings.MappingDef.ActivityResearcherRole</mat-label>
+      <mat-select [formControl]="form.controls.activityResearcherRole" (selectionChange)="onActivityCategorySelected($event)" [compareWith]="compareActivityCategory">
+        <mat-option *ngFor="let val of activityResearcherRoleList" [value]="val.code">{{val.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>   
+  </mat-expansion-panel>
