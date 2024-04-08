@@ -6,7 +6,7 @@
    "description": "This app can be used to create activities from assets and etd's. This is a Beta version",
    "pages": {
       "settings": "/#/settings",
-      "help": "https://github.com/jweisman/alma-refine/wiki/Help"
+      "help": "https://github.com/MahranAbb/Create-Activities-Cloud-App/wiki"
    },
    "icon": {
       "type": "url",
