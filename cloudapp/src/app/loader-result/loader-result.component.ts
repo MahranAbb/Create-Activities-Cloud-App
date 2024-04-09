@@ -308,15 +308,11 @@ export class LoaderResultComponent implements OnInit {
   createActivityFromAsset(asset: Asset, activityMapping: ActivityMappingDef, creator: Creator | undefined, activitiesVisibility: boolean, 
     activitiesLanguage: string, researchTopics: CodeTable.Rows, degreeNames: CodeTable.Rows): Activity {
       const {
-        mms_id,
         title,
         "title.subtitle": title_subtitle,
         "description.abstract": description_abstract,
         "subject.esploro": subject_esploro,
         keywords,
-        keywordsTranslations,
-        creators,
-        contributors,
         "resourcetype.esploro": resource_type,
         "date.presented": date_presented,
         "date.published": date_published,
@@ -395,16 +391,13 @@ export class LoaderResultComponent implements OnInit {
 
     if(description_abstract) {    
       // Select description based on language
-      let activityDescription = { language: 'N/A', value: description_abstract || '' };
-      if (activitiesLanguage !== "N/A" && asset.descriptionAbstractTranslations) {
-          const translation = asset.descriptionAbstractTranslations.find(translation => translation.language === activitiesLanguage);
-          if (translation) {
-              activityDescription = { language: activitiesLanguage, value: translation.value };
-          }
+      const translation = description_abstract.find(translation => translation.language === activitiesLanguage);
+      if(translation) {
+        let activityDescription = { language: activitiesLanguage, value: translation.value || '' };      
+        activity.activity_description_translation = [activityDescription];
       }
-      
-      activity.activity_description_translation = [activityDescription] ;
     }
+
     if (subject_esploro && subject_esploro.length > 0) {
       const activitySubjects = subject_esploro.map((subject: string) => {
         const matchingRow = researchTopics.row.find(row => row.description === subject);
@@ -423,16 +416,11 @@ export class LoaderResultComponent implements OnInit {
     
     if (keywords) {
       // Select keywords based on language
-      let activityKeywords: { language: string; value: string }[] = [];
-      if (activitiesLanguage === "N/A") {
-          activityKeywords = keywords?.map(keyword => ({ language: 'N/A', value: keyword })) || [];
-      } else {
-          const translation = keywordsTranslations?.find(translation => translation.language === activitiesLanguage);
-          if (translation) {
-              activityKeywords = translation.values.map(value => ({ language: activitiesLanguage, value }));
-          }
-      } 
-      
+      let activityKeywords: { language: string; value: string }[] = [];      
+      const translation = keywords?.find(translation => translation.language === activitiesLanguage);
+      if (translation) {
+          activityKeywords = translation.values.map(value => ({ language: activitiesLanguage, value }));
+      }      
       activity.activity_keyword_translation = activityKeywords;
     }
 

@@ -42,10 +42,8 @@
     'resourcetype.esploro': string;
     creators?: Creator[];
     contributors?: Creator[];
-    keywords?: string[];
-    keywordsTranslations?: KeywordTranslation[];
-    'description.abstract'?: string;
-    descriptionAbstractTranslations?: DescriptionTranslation[];
+    keywords?: KeywordTranslation[];
+    'description.abstract'?: DescriptionTranslation[];
     'subject.esploro': string[];
 
     'date.presented'?: string;
