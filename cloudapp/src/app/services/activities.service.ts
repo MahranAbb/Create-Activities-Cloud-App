@@ -13,7 +13,7 @@ export class ActivitiesService {
   /** Create a new Activity record */
   createActivity( activity: Activity ): Observable<Activity> {
     return this.restService.call( {
-      url: '/activities',
+      url: '/esploro/v1/activities',
       headers: { 
         "Content-Type": "application/json",
         Accept: "application/json" },

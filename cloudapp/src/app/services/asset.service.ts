@@ -19,7 +19,7 @@ export class AssetService {
         offset: (pageSize*pageNumber).toString() 
       }
     return this.restService.call( {
-      url: `/assets/${mmsIds}`,
+      url: `/esploro/v1/assets/${mmsIds}`,
       queryParams: params
     }).pipe(map( results => results as Assets ), catchError(err=>of({totalRecordCount: 0, records: []})))
   }
@@ -31,15 +31,8 @@ export class AssetService {
       offset: (pageSize*pageNumber).toString() 
     }
     return this.restService.call( {
-      url: `/conf/sets/${setId}/members`,
+      url: `/esploro/v1/researchconf/sets/${setId}/members`,
       queryParams: params
     }).pipe(map( results => results as SetMembers ))
-  }
-
-  /** Retrieve a single BIB record */
-  getBib (mmsId: string): Observable<Asset> {
-    return this.restService.call(`/Assets/${mmsId}`)
-      .pipe(map( results => results as Asset ));
-  }   
-
+  } 
 }
