@@ -2,6 +2,6 @@ import { defaultActivityMappings, ActivityMappings } from "./activity-mapping";
 
 export class Settings {
     activitiesVisibility: boolean = true;
-    activitiesLanguage: string = "N/A";
+    activitiesLanguage: string = "und";
     activityMappings: ActivityMappings = defaultActivityMappings;
 }

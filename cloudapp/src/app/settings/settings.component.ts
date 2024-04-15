@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
   esploroActivityTypes: CodeTable.Row[] = [];
   esploroActivityRolesMapping: MappingTable.Row[] = [];  
   activityRoles: CodeTable.Row[] = [];
-  languagesList: { id: string, name: string }[] = [{id: "N/A", name : "Undefined"},
+  languagesList: { id: string, name: string }[] = [{id: "und", name : "Undefined"},
   {id: "eng", name : "English"},{id: "ger", name : "German"},{id: "dan", name : "Danish"},
   {id: "ita", name : "Italian"},{id: "fre", name : "French"},{id: "ara", name : "Arabic"}];
   allEtds: CodeTable.Row = {

@@ -314,17 +314,31 @@ export class LoaderResultComponent implements OnInit {
         "subject.esploro": subject_esploro,
         keywords,
         "resourcetype.esploro": resource_type,
-        "date.presented": date_presented,
-        "date.published": date_published,
-        "date.accepted": date_accepted,
-        "date.available": date_available,
-        "date.copyrighted": date_copyrighted,
-        "date.created": date_created,
-        "date.submitted": date_submitted,
-        "date.posted": date_posted,
-        "date.epublished": date_epublished,
+
         "date.degree": date_degree,
-        identifier_doi,
+        "date.published": date_published,
+        "date.epublished": date_epublished,
+        "date.copyrighted": date_copyrighted,
+        "date.presented": date_presented,
+        "date.posted": date_posted,
+        "date.available": date_available,
+        "date.opening": date_opening,
+        "date.performance": date_performance,
+        "date.valid": date_valid,
+        "date.issued": date_issued,
+        "date.renewed": date_renewed,
+        "date.approved": date_approved,
+        "date.accepted": date_accepted,
+        "date.defense": date_defense,
+        "date.submitted": date_submitted,
+        "date.application": date_application,
+        "date.completed": date_completed,
+        "date.created": date_created,
+        "date.collected": date_collected,
+        "date.other": date_other,
+        "date.updated": date_ipdated,
+
+        "identifier.doi": identifier_doi,
         etd,
         student,
         originalRepository
@@ -332,24 +346,41 @@ export class LoaderResultComponent implements OnInit {
 
     // Combine all date variables
     const dates = [
-        date_presented,
-        date_published,
-        date_accepted,
-        date_available,
-        date_copyrighted,
-        date_created,
-        date_submitted,
-        date_posted,
-        date_epublished,
-        date_degree
+      date_degree,
+      date_published,
+      date_epublished,
+      date_copyrighted,
+      date_presented,
+      date_posted,
+      date_available,
+      date_opening,
+      date_performance,
+      date_valid,
+      date_issued,
+      date_renewed,
+      date_approved,
+      date_accepted,
+      date_defense,
+      date_submitted,
+      date_application,
+      date_completed,
+      date_created,
+      date_collected,
+      date_other,
+      date_ipdated
     ];
 
     let activityStartDate = '';
     for (const date of dates) {
-        if (date) {
+      if (date) {
+        if (typeof date === 'string') {
             activityStartDate = date;
             break;
+        } else if (Array.isArray(date) && date.length > 0) {
+            activityStartDate = date[0];
+            break;
         }
+      }
     }
 
     let memberResearchers: Activity['member_researcher'] = [];
@@ -366,11 +397,8 @@ export class LoaderResultComponent implements OnInit {
     const links: Activity['link'] = [];
     if (identifier_doi) {
         links.push({
-            link_url: identifier_doi,
-            link_type: 'DOI',
-            link_title: 'DOI Link',
-            link_license: '',
-            link_order: 1
+            link_url: "http://doi.org/" + identifier_doi,
+            link_title: 'DOI Link'
         });
     }  
 

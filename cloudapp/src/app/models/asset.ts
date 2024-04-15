@@ -38,7 +38,7 @@
     mms_id: string;
     title: string;
     'title.subtitle'?: string;
-    identifier_doi?: string;
+    'identifier.doi'?: string;
     'resourcetype.esploro': string;
     creators?: Creator[];
     contributors?: Creator[];
@@ -46,16 +46,28 @@
     'description.abstract'?: DescriptionTranslation[];
     'subject.esploro': string[];
 
-    'date.presented'?: string;
-    'date.published'?: string;
-    'date.accepted'?: string;
-    'date.available'?: string;
-    'date.copyrighted'?: string;
-    'date.created'?: string;
-    'date.submitted'?: string;
-    'date.posted'?: string;
-    'date.epublished'?: string;
     'date.degree'?: string;
+    'date.published'?: string;
+    'date.epublished'?: string;
+    'date.copyrighted'?: string;
+    'date.presented'?: string;
+    'date.posted'?: string;
+    'date.available'?: string;
+    'date.opening'?: string;
+    'date.performance'?: string[];
+    'date.valid'?: string;
+    'date.issued'?: string;
+    'date.renewed'?: string;
+    'date.approved'?: string;
+    'date.accepted'?: string;
+    'date.defense'?: string;
+    'date.submitted'?: string;
+    'date.application'?: string;
+    'date.completed'?: string;
+    'date.created'?: string;
+    'date.collected'?: string;
+    'date.other'?: string[];
+    'date.updated'?: string[];
 
     etd?: Etd;
     

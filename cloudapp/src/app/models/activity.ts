@@ -45,10 +45,7 @@ export interface Activity {
     }[];
     link?: {
         link_url: string;
-        link_type: string;
         link_title: string;
-        link_license: string;
-        link_order: number;
     }[];
     activity_thesis_level?: {
         desc: string;
