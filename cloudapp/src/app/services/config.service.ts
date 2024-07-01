@@ -6,14 +6,14 @@ import { merge } from 'lodash';
 import { ActivityMappingDef, defaultActivityMappings } from '../models/activity-mapping';
 import { CloudAppRestService, CloudAppSettingsService } from '@exlibris/exl-cloudapp-angular-lib';
 import { Settings } from '../models/settings';
-import { CodeTable, MappingTable } from '../models/confTables';
+import { ConfTable } from '../models/confTables';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
   private _settings: Settings;
-  anyRow: CodeTable.Row = {
+  anyRow: ConfTable.Code = {
     code: "Any",
     description: "Any"
   };
@@ -32,19 +32,19 @@ export class ConfigService {
     }).pipe(map( results => results as Sets))
   }
 
-  getCodeTable(name: string = null): Observable<CodeTable.Rows> {
+  getCodeTable(name: string = null): Observable<ConfTable.CodeTable> {
     return this.restService.call( {
       url: '/esploro/v1/researchconf/code-tables/' + name
-    }).pipe(map( results => results as CodeTable.Rows))
+    }).pipe(map( results => results as ConfTable.CodeTable))
   }
 
-  getMappingTable(name: string = null): Observable<MappingTable.Rows> {
+  getMappingTable(name: string = null): Observable<ConfTable.MappingTable> {
     return this.restService.call( {
       url: '/esploro/v1/conf/mapping-tables/' + name
-    }).pipe(map( results => results as MappingTable.Rows))
+    }).pipe(map( results => results as ConfTable.MappingTable))
   }
 
-  addAnyRow(rows: CodeTable.Row[]) {
+  addAnyRow(rows: ConfTable.Code[]) {
     rows.push(this.anyRow);
     return rows;
   }

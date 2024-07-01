@@ -12,7 +12,7 @@ import { SetMember, SetMembers } from "../models/set";
 import { Settings } from "../models/settings";
 import { ActivityMappingDef, ActivityMappings } from "../models/activity-mapping";
 import { Activity, AssetActivitiesResponse } from "../models/activity";
-import { CodeTable, MappingTable } from "../models/confTables";
+import { ConfTable } from "../models/confTables";
 
 @Component({
   selector: 'app-loader-result',
@@ -89,7 +89,7 @@ export class LoaderResultComponent implements OnInit {
 
         console.log(this.matchedAssetsMap);
 
-        this.assetToActivitiesMap = await this.createActivitiesFromAssets(this.matchedAssetsMap, this.settings.activityMappings, this.settings.activitiesVisibility, this.settings.activitiesLanguage);
+        this.assetToActivitiesMap = await this.createActivitiesFromAssets(this.matchedAssetsMap, this.settings.activityMappings, this.settings.activitiesVisibilityPublicProfile, this.settings.activitiesVisibilityResearcherProfile, this.settings.activitiesLanguage);
         console.log(this.assetToActivitiesMap);
 
         let totalRecords = 0;
@@ -305,8 +305,8 @@ export class LoaderResultComponent implements OnInit {
     return false; // No match found for creator role
   }
 
-  createActivityFromAsset(asset: Asset, activityMapping: ActivityMappingDef, creator: Creator | undefined, activitiesVisibility: boolean, 
-    activitiesLanguage: string, researchTopics: CodeTable.Rows, degreeNames: CodeTable.Rows): Activity {
+  createActivityFromAsset(asset: Asset, activityMapping: ActivityMappingDef, creator: Creator | undefined, activitiesVisibilityPublicProfile: boolean, 
+    activitiesVisibilityResearcherProfile: boolean, activitiesLanguage: string, researchTopics: ConfTable.CodeTable, degreeNames: ConfTable.CodeTable): Activity {
       const {
         title,
         "title.subtitle": title_subtitle,
@@ -411,8 +411,8 @@ export class LoaderResultComponent implements OnInit {
         member_researcher: memberResearchers ,
         related_assets: [{ target_mms_id: originalRepository.assetId, visible: true, order: 1 }],
         link: links,
-        profile_visibility: activitiesVisibility,
-        portal_visibility: activitiesVisibility,
+        profile_visibility: activitiesVisibilityResearcherProfile,
+        portal_visibility: activitiesVisibilityPublicProfile,
         repository_status: {value: "approved", desc: "Approved"},
         input_method: {value: "activity.imported", desc: "activity.imported"}
     };
@@ -452,22 +452,30 @@ export class LoaderResultComponent implements OnInit {
       activity.activity_keyword_translation = activityKeywords;
     }
 
-    let activityThesisLevel: { desc: string, value: number } = { desc: '', value: 0 };
-    if (resource_type && etd && etd['degree.name']) {
-        const degreeName = etd['degree.name'];
-        if (degreeName.toLowerCase().includes("doctoral")) {
+    let activityThesisLevel: { desc: string, value: number } = { desc: '', value: 0 };          
+    const activityDegreeAwarded = {
+      desc: '',
+      value: ''
+    };
+    let degreeResult;    
+    if (resource_type && etd) {
+      const assetType = resource_type.split('.')[1];
+        if (assetType.toLowerCase().includes("doctoral")) {
+          degreeResult = this.findRowByCode(degreeNames, activityMapping.degreeAwardedDoctoral);
           activityThesisLevel = {
             desc: "Doctoral",
             value: 2
           }         
         }
-        else if (degreeName.toLowerCase().includes("graduate")) {
-          activityThesisLevel = {
+        else if (assetType.toLowerCase().includes("graduate")) {
+          degreeResult = this.findRowByCode(degreeNames, activityMapping.degreeAwardedGraduate);
+          activityThesisLevel = {      
             desc: "Masters",
             value: 1
           }         
         }
-        else if (degreeName.toLowerCase().includes("undergraduate")) {
+        else if (assetType.toLowerCase().includes("undergraduate")) {
+          degreeResult = this.findRowByCode(degreeNames, activityMapping.degreeAwardedUndergraduate);
           activityThesisLevel = {
             desc: "Undergraduate",
             value: 0
@@ -477,18 +485,11 @@ export class LoaderResultComponent implements OnInit {
         const activityThesisTitles = [{
           language: activitiesLanguage,
           value: `${title}${title_subtitle ? ': ' + title_subtitle : ''}`
-        }];        
+        }];  
 
-        const activityDegreeAwarded = {
-          desc: '',
-          value: ''
-        };
-        if (etd && etd["degree.name"]) {
-            const matchingDegree = degreeNames.row.find(row => row.description === etd["degree.name"]);
-            if (matchingDegree) {
-                activityDegreeAwarded.desc = matchingDegree.description;
-                activityDegreeAwarded.value = matchingDegree.code;
-            }
+        if (degreeResult) {
+          activityDegreeAwarded.desc = degreeResult.description;
+          activityDegreeAwarded.value = degreeResult.code;
         }
         
         activity.activity_thesis_level= activityThesisLevel;
@@ -501,7 +502,11 @@ export class LoaderResultComponent implements OnInit {
     return activity;
   }
 
-  async createActivitiesFromAssets(assetMap: Map<string, Asset[]>, activityMappings: ActivityMappings, activitiesVisibility: boolean, activitiesLanguage: string): Promise<Map<string, Activity[]>> {
+  findRowByCode(codeTable: ConfTable.CodeTable, searchCode: string): ConfTable.Code | undefined {
+    return codeTable.row.find(code => code.code === searchCode);
+  }
+
+  async createActivitiesFromAssets(assetMap: Map<string, Asset[]>, activityMappings: ActivityMappings, activitiesVisibilityPublicProfile: boolean, activitiesVisibilityResearcherProfile: boolean, activitiesLanguage: string): Promise<Map<string, Activity[]>> {
     const activitiesMap = new Map<string, Activity[]>();
 
     // Combine all API calls using forkJoin
@@ -524,12 +529,12 @@ export class LoaderResultComponent implements OnInit {
         const contributors = asset.contributors || [];
 
         creators.forEach(creator => {
-            const activity = this.createActivityFromAsset(asset, mapping, creator, activitiesVisibility, activitiesLanguage, researchTopics, degreeNames);
+            const activity = this.createActivityFromAsset(asset, mapping, creator, activitiesVisibilityPublicProfile, activitiesVisibilityResearcherProfile, activitiesLanguage, researchTopics, degreeNames);
             activities.push(activity);
         });
 
         contributors.forEach(contributor => {
-            const activity = this.createActivityFromAsset(asset, mapping, contributor, activitiesVisibility, activitiesLanguage, researchTopics, degreeNames);
+            const activity = this.createActivityFromAsset(asset, mapping, contributor, activitiesVisibilityPublicProfile, activitiesVisibilityResearcherProfile, activitiesLanguage, researchTopics, degreeNames);
             activities.push(activity);
         });
 

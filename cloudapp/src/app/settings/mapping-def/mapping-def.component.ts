@@ -5,7 +5,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { TranslateService } from '@ngx-translate/core';
 import { DialogService } from 'eca-components';
 import { ConfigService } from '../../services/config.service';
-import { CodeTable, MappingTable } from '../../models/confTables';
+import { ConfTable } from '../../models/confTables';
 import { MatSelectChange } from '@angular/material/select';
 
 @Component({
@@ -15,18 +15,20 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class MappingDefComponent implements OnInit {
   @Input() form: FormGroup;
-  @Input() esploroResourcetypes: CodeTable.Row[];
-  @Input() esploroContributortypes: CodeTable.Row[];
-  @Input() esploroActivityCategories: CodeTable.Row[];
-  @Input() esploroActivityTypes: CodeTable.Row[];  
-  @Input() esploroActivityRolesMapping: MappingTable.Row[];  
-  @Input() activityRoles: CodeTable.Row[];
+  @Input() esploroResourcetypes: ConfTable.Code[];
+  @Input() esploroContributortypes: ConfTable.Code[];
+  @Input() esploroActivityCategories: ConfTable.Code[];
+  @Input() esploroActivityTypes: ConfTable.Code[];  
+  @Input() esploroActivityRolesMapping: ConfTable.Mapping[];  
+  @Input() activityRoles: ConfTable.Code[];
+  @Input() degreeAwardedList: ConfTable.Code[];
   @Output() onDelete = new EventEmitter();
-  assetCategoryList: CodeTable.Row[];
-  assetTypeList: CodeTable.Row[] = [];
-  activityResearcherRoleList: CodeTable.Row[] = [];
+  assetCategoryList: ConfTable.Code[];
+  assetTypeList: ConfTable.Code[] = [];
+  activityResearcherRoleList: ConfTable.Code[] = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  anyRow: CodeTable.Row = {
+  selectedCategory = "none";
+  anyRow: ConfTable.Code = {
     code: "any",
     description: "Any"
   };
@@ -51,6 +53,7 @@ export class MappingDefComponent implements OnInit {
         return matchingCodeRow;
       });
     }
+    this.selectedCategory = this.form.controls.assetCategory.value;
   }
 
   removeField(index: number) {
@@ -99,6 +102,7 @@ export class MappingDefComponent implements OnInit {
   }
 
   onAssetCategorySelected(event: MatSelectChange) {
+    this.selectedCategory = event.source.value;
     this.assetTypeList = this.esploroResourcetypes.filter(row => row.code.startsWith(event.source.value + "."));
     this.assetTypeList.push(this.anyRow);
   }

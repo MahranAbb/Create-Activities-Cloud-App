@@ -19,12 +19,32 @@
         <mat-option *ngFor="let cat of assetCategoryList" [value]="cat.code">{{cat.description}}</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="full-width">
+    <mat-form-field class="full-width" *ngIf="selectedCategory !== 'allEtds' && selectedCategory !== 'etd' && selectedCategory !== 'etdexternal'">
       <mat-label translate>Settings.MappingDef.AssetType</mat-label>
       <mat-select [formControl]="form.controls.assetType">
         <mat-option *ngFor="let cat of assetTypeList" [value]="cat.code">{{cat.description}}</mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field class="full-width" *ngIf="selectedCategory === 'allEtds' || selectedCategory === 'etd' || selectedCategory === 'etdexternal'">
+      <mat-label translate>Settings.MappingDef.DegreeAwardedDoctoral</mat-label>
+      <mat-select [formControl]="form.controls.degreeAwardedDoctoral">
+        <mat-option *ngFor="let degree of degreeAwardedList" [value]="degree.code">{{degree.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="selectedCategory === 'allEtds' || selectedCategory === 'etd' || selectedCategory === 'etdexternal'">
+      <mat-label translate>Settings.MappingDef.DegreeAwardedGraduate</mat-label>
+      <mat-select [formControl]="form.controls.degreeAwardedGraduate">
+        <mat-option *ngFor="let degree of degreeAwardedList" [value]="degree.code">{{degree.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="full-width" *ngIf="selectedCategory === 'allEtds' || selectedCategory === 'etd' || selectedCategory === 'etdexternal'">
+      <mat-label translate>Settings.MappingDef.DegreeAwardedUndergraduate</mat-label>
+      <mat-select [formControl]="form.controls.degreeAwardedUndergraduate">
+        <mat-option *ngFor="let degree of degreeAwardedList" [value]="degree.code">{{degree.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <mat-form-field class="full-width">
       <mat-label translate>Settings.MappingDef.CreatorRole</mat-label>
       <mat-select [formControl]="form.controls.creatorRole">

@@ -10,7 +10,7 @@ import { snakeCase, startCase } from 'lodash';
 import { Observable, forkJoin, of } from 'rxjs';
 import { AddMappingDialog, AddMappingDialogResult } from './add-mapping-dialog.component';
 import { DialogService } from 'eca-components';
-import { CodeTable, MappingTable } from '../models/confTables';
+import { ConfTable } from '../models/confTables';
 
 @Component({
   selector: 'app-settings',
@@ -20,16 +20,17 @@ import { CodeTable, MappingTable } from '../models/confTables';
 export class SettingsComponent implements OnInit {
   form: FormGroup;
   saving = false;
-  esploroResourceTypes: CodeTable.Row[];
-  esploroContributorTypes: CodeTable.Row[] = [];
-  esploroActivityCategories: CodeTable.Row[] = [];
-  esploroActivityTypes: CodeTable.Row[] = [];
-  esploroActivityRolesMapping: MappingTable.Row[] = [];  
-  activityRoles: CodeTable.Row[] = [];
+  esploroResourceTypes: ConfTable.Code[];
+  esploroContributorTypes: ConfTable.Code[] = [];
+  esploroActivityCategories: ConfTable.Code[] = [];
+  esploroActivityTypes: ConfTable.Code[] = [];
+  esploroActivityRolesMapping: ConfTable.Mapping[] = [];  
+  activityRoles: ConfTable.Code[] = [];
+  degreeAwardedList: ConfTable.Code[] = [];
   languagesList: { id: string, name: string }[] = [{id: "und", name : "Undefined"},
   {id: "eng", name : "English"},{id: "ger", name : "German"},{id: "dan", name : "Danish"},
   {id: "ita", name : "Italian"},{id: "fre", name : "French"},{id: "ara", name : "Arabic"}];
-  allEtds: CodeTable.Row = {
+  allEtds: ConfTable.Code = {
     code: "allEtds",
     description: "ETD + External ETD"
   };
@@ -46,8 +47,25 @@ export class SettingsComponent implements OnInit {
       this.configService.getCodeTable('ResearcherActivityCategories'),
       this.configService.getCodeTable('ResearcherActivityTypes'),
       this.configService.getMappingTable('ResearcherActivityRolesMapping'),
-      this.configService.getCodeTable('ResearcherActivityRoles')
-    ]).subscribe(([resourceTypeRows, contributorTypeRows, activityCategoriesRows, activityTypesRows, activityRolesMappingRows, activityRolesRows]) => {
+      this.configService.getCodeTable('ResearcherActivityRoles'),
+      this.configService.getCodeTable('degreeNames')
+    ]).subscribe(([
+      resourceTypeRows, 
+      contributorTypeRows, 
+      activityCategoriesRows, 
+      activityTypesRows, 
+      activityRolesMappingRows, 
+      activityRolesRows, 
+      degreeAwardedRows
+    ]: [
+      ConfTable.CodeTable, 
+      ConfTable.CodeTable, 
+      ConfTable.CodeTable, 
+      ConfTable.CodeTable, 
+      ConfTable.MappingTable, 
+      ConfTable.CodeTable, 
+      ConfTable.CodeTable
+    ]) => {
       this.esploroResourceTypes = resourceTypeRows.row;
       this.esploroResourceTypes.push(this.allEtds);
       
@@ -58,6 +76,7 @@ export class SettingsComponent implements OnInit {
       this.esploroActivityTypes = activityTypesRows.row;
       this.esploroActivityRolesMapping = activityRolesMappingRows.row;
       this.activityRoles = activityRolesRows.row;
+      this.degreeAwardedList = degreeAwardedRows.row;
     });
   }
 

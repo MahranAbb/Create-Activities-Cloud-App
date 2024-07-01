@@ -1,26 +1,28 @@
-namespace CodeTable {
-  export interface Row {
+namespace ConfTable {
+  export interface Code {
     code: string,
     description: string
   }
   
-  export interface Rows {
+  export interface CodeTable {
     total_rows_count: number,
-    row: Row[]
+    row: Code[]
   }
-}
 
-namespace MappingTable {
-  export interface Row {
+  export interface Mapping {
     column0: string,
     column1: string,
     enabled: boolean
   }
   
-  export interface Rows {
+  export interface MappingTable {
     total_rows_count: number,
-    row: Row[]
+    row: Mapping[]
   }
 }
 
-export { CodeTable, MappingTable };
+function findRowByCode(codeTable: ConfTable.CodeTable, searchCode: string): ConfTable.Code | undefined {
+  return codeTable.row.find(code => code.code === searchCode);
+}
+
+export { ConfTable };

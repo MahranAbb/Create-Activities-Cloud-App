@@ -8,7 +8,8 @@ export const settingsFormGroup = (settings: Settings): FormGroup => {
     activityMappingFormGroups.addControl(key, activityMappingFormGroup(value))
   );
   return new FormGroup({
-    activitiesVisibility: new FormControl(settings.activitiesVisibility),
+    activitiesVisibilityPublicProfile: new FormControl(settings.activitiesVisibilityPublicProfile),
+    activitiesVisibilityResearcherProfile: new FormControl(settings.activitiesVisibilityResearcherProfile),
     activitiesLanguage: new FormControl(settings.activitiesLanguage),
     activityMapping: activityMappingFormGroups
   });
@@ -19,6 +20,9 @@ export const activityMappingFormGroup = (value: ActivityMappingDef) => {
     name: new FormControl(value.name, Validators.required),
     assetCategory : new FormControl(value.assetCategory),
     assetType: new FormControl(value.assetType),
+    degreeAwardedDoctoral: new FormControl(value.degreeAwardedDoctoral),
+    degreeAwardedGraduate: new FormControl(value.degreeAwardedGraduate),
+    degreeAwardedUndergraduate: new FormControl(value.degreeAwardedUndergraduate),
     creatorRole: new FormControl(value.creatorRole),
     activityCategory: new FormControl(value.activityCategory),
     activityType: new FormControl(value.activityType),
