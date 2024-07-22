@@ -10,6 +10,11 @@ import { Set } from '../models/set';
 import { SelectSetComponent } from '../select-set/select-set.component';
 import { SelectEntitiesComponent } from '../select-entities/select-entities.component';
 import { Router } from '@angular/router';
+import { MatSelectChange } from '@angular/material/select';
+import { ActivityMappingDef } from '../models/activity-mapping';
+import { FormControl } from '@angular/forms';
+import { Settings } from '../models/settings';
+import { ConfigService } from '../services/config.service';
 
 @Component({
   selector: 'app-main',
@@ -27,22 +32,60 @@ export class MainComponent implements OnInit, OnDestroy {
   listType: ListType = ListType.SET;
   selectedSet: Set;
   mmsIds = new Set<string>();
+  mappingProfiles: ActivityMappingDef[] = [];
+  mappingProfile: FormControl;
+  selectedProfile: ActivityMappingDef;
   entities: Entity[];
   @ViewChild('selectSet', {static: false}) selectSetComponent: SelectSetComponent;
   @ViewChild('selectBibs', {static: false}) selectBibsComponent: SelectEntitiesComponent;
   ///
   entities$: Observable<Entity[]> = this.eventsService.entities$
-  .pipe(tap(() => this.clear()))
+  .pipe(tap(() => this.clear()));
+  settings: Settings;
 
   constructor(
     private restService: CloudAppRestService,
     private eventsService: CloudAppEventsService,
-    private alert: AlertService, private router: Router
-  ) { }
+    private alert: AlertService, private router: Router,
+    private configService: ConfigService
+  ) { 
+    this.mappingProfile = new FormControl();
+  }
 
   ngOnInit() {
+    this.loadSettings();
+  }
+  
+  loadSettings() {
+    this.configService.getSettings().subscribe(
+      (settings: Settings) => {
+        console.log('Settings received:', settings);
+        this.settings = settings;
+        this.initializeMappingProfiles(); // Move profile initialization to a separate method
+        this.setupPageLoad(); // Move page load setup to a separate method
+      },
+      error => {
+        console.error('Error loading settings:', error);
+        // Handle error loading settings
+      }
+    );
+  }
+  
+  initializeMappingProfiles() {
+    if (this.settings && this.settings.activityMappings) {
+      this.mappingProfiles = Object.values(this.settings.activityMappings);
+      this.selectedProfile = this.mappingProfiles.length > 0 ? this.mappingProfiles[0] : null;
+      this.mappingProfile.setValue(this.selectedProfile);
+    } else {
+      this.mappingProfiles = [];
+      this.selectedProfile = null;
+    }
+  }
+  
+  setupPageLoad() {
     this.pageLoad$ = this.eventsService.onPageLoad(this.onPageLoad);
   }
+  
 
   ngOnDestroy(): void {
   }
@@ -121,7 +164,8 @@ export class MainComponent implements OnInit, OnDestroy {
       ( (this.listType==ListType.SET && this.selectedSet!=null) ||
         (this.listType==ListType.SELECT && this.mmsIds.size!=0) || 
         (this.listType=='DISPLAY') 
-      )
+      ) &&
+      this.selectedProfile != null
     );
   }
 
@@ -136,7 +180,16 @@ export class MainComponent implements OnInit, OnDestroy {
       }
       params['mmsIds'] = Array.from(this.mmsIds).join(',');
     }
+    params['mappingProfile'] = JSON.stringify(this.selectedProfile);
     this.router.navigate(['loaderResult', params]);
+  }
+
+  onMappingProfileSelected(event: MatSelectChange) {
+    this.selectedProfile = event.source.value;
+  }
+
+  compareMappingProfiles(a: ActivityMappingDef, b: ActivityMappingDef): boolean {
+    return a && b ? a.name === b.name : a === b;
   }
 }
 

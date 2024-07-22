@@ -28,66 +28,6 @@ export const defaultActivityMappings: ActivityMappings = {
     "activityType": "activity.thesisAdvisor",
     "activityResearcherRole": "activity.supervisor"
   },
-  "Chair": {
-    "name" : "Chair",
-    "assetCategory": "allEtds",
-    "assetType": "Any",
-    "degreeAwardedDoctoral": "PhD",
-    "degreeAwardedGraduate": "MA",
-    "degreeAwardedUndergraduate": "BA",
-    "creatorRole": "Chair",
-    "activityCategory": "activity.advising",
-    "activityType": "activity.thesisComMember",
-    "activityResearcherRole": "activity.contributor"
-  },
-  "Co-Chair" : {
-    "name" : "Co-Chair",
-    "assetCategory": "allEtds",
-    "assetType": "Any",
-    "degreeAwardedDoctoral": "PhD",
-    "degreeAwardedGraduate": "MA",
-    "degreeAwardedUndergraduate": "BA",
-    "creatorRole": "Co-Chair",
-    "activityCategory": "activity.advising",
-    "activityType": "activity.thesisComMember",
-    "activityResearcherRole": "activity.contributor"
-  },
-  "Committee Member" : {
-    "name" : "Committee Member",
-    "assetCategory": "allEtds",
-    "assetType": "Any",
-    "degreeAwardedDoctoral": "PhD",
-    "degreeAwardedGraduate": "MA",
-    "degreeAwardedUndergraduate": "BA",
-    "creatorRole": "Committee Member",
-    "activityCategory": "activity.advising",
-    "activityType": "activity.thesisComMember",
-    "activityResearcherRole": "activity.contributor"
-  },
-  "Juror" : {
-    "name" : "Juror",
-    "assetCategory": "allEtds",
-    "assetType": "Any",
-    "degreeAwardedDoctoral": "PhD",
-    "degreeAwardedGraduate": "MA",
-    "degreeAwardedUndergraduate": "BA",
-    "creatorRole": "Juror",
-    "activityCategory": "activity.advising",
-    "activityType": "activity.thesisComMember",
-    "activityResearcherRole": "activity.contributor"
-  },
-  "Referee" : {
-    "name" : "Referee",
-    "assetCategory": "allEtds",
-    "assetType": "Any",
-    "degreeAwardedDoctoral": "PhD",
-    "degreeAwardedGraduate": "MA",
-    "degreeAwardedUndergraduate": "BA",
-    "creatorRole": "Referee",
-    "activityCategory": "activity.advising",
-    "activityType": "activity.thesisComMember",
-    "activityResearcherRole": "activity.contributor"
-  },
   "Event": {
     "name" : "Event",
     "assetCategory": "conference",

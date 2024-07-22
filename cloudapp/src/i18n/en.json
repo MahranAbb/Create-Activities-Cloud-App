@@ -7,7 +7,8 @@
 		"DisplayedRecords": "Displayed Records",
 		"SelectRecords": "Select Records",
 		"Intro": "To begin creating activities, navigate to a list of assets or select a set.",
-		"SelectSet": "Set"
+		"SelectSet": "Set",
+		"SelectMapapingProfile": "Select a mapping profile"
 	},
 	"Result": {
 		"MMS": "MMS ID",
@@ -16,7 +17,8 @@
 		"ActivityCreated": "Success!",
 		"ActivityFailed": "Failed!",
 		"Back": "Back",
-		"ActivitiesList": "Activities List"
+		"ActivitiesList": "Activities List",
+		"NoMappingMatchesToCreate": "No assets match the chosen mapping; therefore, no activities were created!"
 	},
 	"SetSelect": {
 		"SelectSet": "Select a set"

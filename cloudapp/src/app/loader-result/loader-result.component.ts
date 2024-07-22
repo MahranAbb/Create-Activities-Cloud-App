@@ -22,7 +22,9 @@ import { ConfTable } from "../models/confTables";
 export class LoaderResultComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'activities'];
   setId: string;
-  mmsIds: string[];
+  mmsIds: string[];  
+  mappingProfile: ActivityMappingDef;
+  mappingProfilesArray: ActivityMappings;
   assets: Assets;
   status = { isLoading: false, recordCount: 0, percentComplete: -1 };
   settings: Settings;
@@ -43,7 +45,11 @@ export class LoaderResultComponent implements OnInit {
   async ngOnInit() {
     this.setId = this.route.snapshot.params['setId'];
     if (this.route.snapshot.params['mmsIds'])
-      this.mmsIds = this.route.snapshot.params['mmsIds'].split(',');
+      this.mmsIds = this.route.snapshot.params['mmsIds'].split(','); 
+    const mappingProfileString = this.route.snapshot.params['mappingProfile'];
+    if (mappingProfileString) {
+      this.mappingProfile = JSON.parse(mappingProfileString) as ActivityMappingDef;
+    }  
     await this.createActivities();
     this.dataSource = new MatTableDataSource(Array.from(this.assetActivitiesResponse.values()));
     this.page();
@@ -85,11 +91,12 @@ export class LoaderResultComponent implements OnInit {
         }).toPromise();
 
         this.settings = settings;
-        this.matchedAssetsMap = this.matchActivityMappings(assets.records, this.settings.activityMappings);
+        this.mappingProfilesArray = {[this.mappingProfile.name]: this.mappingProfile};
+        this.matchedAssetsMap = this.matchActivityMappings(assets.records, this.mappingProfilesArray);
 
         console.log(this.matchedAssetsMap);
 
-        this.assetToActivitiesMap = await this.createActivitiesFromAssets(this.matchedAssetsMap, this.settings.activityMappings, this.settings.activitiesVisibilityPublicProfile, this.settings.activitiesVisibilityResearcherProfile, this.settings.activitiesLanguage);
+        this.assetToActivitiesMap = await this.createActivitiesFromAssets(this.matchedAssetsMap, this.mappingProfilesArray, this.settings.activitiesVisibilityPublicProfile, this.settings.activitiesVisibilityResearcherProfile, this.settings.activitiesLanguage);
         console.log(this.assetToActivitiesMap);
 
         let totalRecords = 0;

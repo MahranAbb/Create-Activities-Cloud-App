@@ -1,5 +1,5 @@
 <p translate>Main.Intro</p>
-<div class="operation-options">
+<div *ngIf="mappingProfiles && mappingProfiles.length > 0" class="operation-options">
   <mat-radio-group aria-label="Select an option" [(ngModel)]="listType">
     <mat-radio-button value="SET">{{'Main.SelectSet' | translate}}</mat-radio-button>
     <mat-radio-button value="DISPLAY" *ngIf="entities.length>0">{{'Main.DisplayedRecords' | translate}}</mat-radio-button>
@@ -16,6 +16,15 @@
     [entityList]="entities"
     [selectedEntities]="mmsIds">
   </app-select-entities>
+
+  <mat-form-field class="select-mapping-profile">
+    <mat-select placeholder="{{'Main.SelectMapapingProfile' | translate}}" 
+      (selectionChange)="onMappingProfileSelected($event)" [formControl]="mappingProfile" [compareWith]="compareMappingProfiles">
+      <mat-option *ngFor="let profile of mappingProfiles" [value]="profile">
+        {{ profile.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
 
   <button mat-flat-button (click)="load()" [disabled]="!isValid" color="primary">{{'Main.CreateActivities' | translate}}</button>
 </div>
