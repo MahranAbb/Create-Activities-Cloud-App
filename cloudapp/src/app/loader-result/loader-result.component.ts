@@ -274,8 +274,7 @@ export class LoaderResultComponent implements OnInit {
           return this.checkMatchingCreatorRole(asset, mappingDef);
         }
       } else {
-        if (mappingDef.assetCategory.toLowerCase() === assetCategory.toLowerCase() &&
-            mappingDef.assetType.toLowerCase() === assetType.toLowerCase()) {
+        if (mappingDef.assetType.toLowerCase() === asset['resourcetype.esploro'].toLowerCase()) {
           // Check for matching creator role
           return this.checkMatchingCreatorRole(asset, mappingDef);
         }
@@ -464,8 +463,9 @@ export class LoaderResultComponent implements OnInit {
       desc: '',
       value: ''
     };
-    let degreeResult;    
-    if (resource_type && etd) {
+    let degreeResult;  
+    const assetCategory = resource_type.split('.')[0];  
+    if (assetCategory.toLowerCase() === "etd" || assetCategory.toLowerCase() === "etdexternal") {
       const assetType = resource_type.split('.')[1];
         if (assetType.toLowerCase().includes("doctoral")) {
           degreeResult = this.findRowByCode(degreeNames, activityMapping.degreeAwardedDoctoral);
@@ -502,7 +502,9 @@ export class LoaderResultComponent implements OnInit {
         activity.activity_thesis_level= activityThesisLevel;
         activity.activity_thesis_title= activityThesisTitles ;
         activity.activity_degree_awarded= activityDegreeAwarded;
-        activity.student = student;
+        if(activityMapping.activityCategory.toLowerCase() == "activity.advising") {
+          activity.student = student;
+        }
 
     }
 

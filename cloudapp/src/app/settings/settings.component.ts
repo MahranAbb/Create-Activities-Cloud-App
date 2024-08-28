@@ -25,6 +25,7 @@ export class SettingsComponent implements OnInit {
   esploroActivityCategories: ConfTable.Code[] = [];
   esploroActivityTypes: ConfTable.Code[] = [];
   esploroActivityRolesMapping: ConfTable.Mapping[] = [];  
+  esploroActivityTypesMapping: ConfTable.Mapping[] = [];  
   activityRoles: ConfTable.Code[] = [];
   degreeAwardedList: ConfTable.Code[] = [];
   languagesList: { id: string, name: string }[] = [{id: "und", name : "Undefined"},
@@ -48,7 +49,8 @@ export class SettingsComponent implements OnInit {
       this.configService.getCodeTable('ResearcherActivityTypes'),
       this.configService.getMappingTable('ResearcherActivityRolesMapping'),
       this.configService.getCodeTable('ResearcherActivityRoles'),
-      this.configService.getCodeTable('degreeNames')
+      this.configService.getCodeTable('degreeNames'),
+      this.configService.getMappingTable('ResearcherActivityTypesMapping')
     ]).subscribe(([
       resourceTypeRows, 
       contributorTypeRows, 
@@ -56,7 +58,8 @@ export class SettingsComponent implements OnInit {
       activityTypesRows, 
       activityRolesMappingRows, 
       activityRolesRows, 
-      degreeAwardedRows
+      degreeAwardedRows,
+      activityTypesMappingRows
     ]: [
       ConfTable.CodeTable, 
       ConfTable.CodeTable, 
@@ -64,7 +67,8 @@ export class SettingsComponent implements OnInit {
       ConfTable.CodeTable, 
       ConfTable.MappingTable, 
       ConfTable.CodeTable, 
-      ConfTable.CodeTable
+      ConfTable.CodeTable, 
+      ConfTable.MappingTable
     ]) => {
       this.esploroResourceTypes = resourceTypeRows.row;
       this.esploroResourceTypes.push(this.allEtds);
@@ -75,6 +79,7 @@ export class SettingsComponent implements OnInit {
       this.esploroActivityCategories = activityCategoriesRows.row;
       this.esploroActivityTypes = activityTypesRows.row;
       this.esploroActivityRolesMapping = activityRolesMappingRows.row;
+      this.esploroActivityTypesMapping = activityTypesMappingRows.row;
       this.activityRoles = activityRolesRows.row;
       this.degreeAwardedList = degreeAwardedRows.row;
     });

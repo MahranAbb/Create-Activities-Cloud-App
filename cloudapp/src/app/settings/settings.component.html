@@ -30,12 +30,13 @@
 
     <h2 translate>Settings.DataMapping<h6 translate>Settings.DataMappingToolTip</h6></h2>
     <mat-accordion *ngIf="esploroResourceTypes && esploroContributorTypes && esploroActivityCategories && esploroActivityTypes 
-        && esploroActivityRolesMapping && activityRoles && degreeAwardedList">
+        && esploroActivityRolesMapping && activityRoles && degreeAwardedList && esploroActivityTypesMapping">
       <app-settings-mapping-def 
         *ngFor="let service of activityMapping.controls | keyvalue" [form]="service.value" 
         [esploroResourcetypes]="esploroResourceTypes" [esploroContributortypes]="esploroContributorTypes" 
         [esploroActivityCategories]="esploroActivityCategories" [esploroActivityTypes]="esploroActivityTypes"
-        [esploroActivityRolesMapping]="esploroActivityRolesMapping" [activityRoles]="activityRoles"  [degreeAwardedList]="degreeAwardedList"
+        [esploroActivityRolesMapping]="esploroActivityRolesMapping" [activityRoles]="activityRoles"  [degreeAwardedList]="degreeAwardedList" 
+        [esploroActivityTypesMapping]="esploroActivityTypesMapping" 
         (onDelete)="deleteService(service.key)"
       >
       </app-settings-mapping-def>

@@ -19,13 +19,15 @@ export class MappingDefComponent implements OnInit {
   @Input() esploroContributortypes: ConfTable.Code[];
   @Input() esploroActivityCategories: ConfTable.Code[];
   @Input() esploroActivityTypes: ConfTable.Code[];  
-  @Input() esploroActivityRolesMapping: ConfTable.Mapping[];  
+  @Input() esploroActivityRolesMapping: ConfTable.Mapping[];
+  @Input() esploroActivityTypesMapping: ConfTable.Mapping[];  
   @Input() activityRoles: ConfTable.Code[];
   @Input() degreeAwardedList: ConfTable.Code[];
   @Output() onDelete = new EventEmitter();
   assetCategoryList: ConfTable.Code[];
   assetTypeList: ConfTable.Code[] = [];
   activityResearcherRoleList: ConfTable.Code[] = [];
+  activityTypeList: ConfTable.Code[] = [];
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   selectedCategory = "none";
   anyRow: ConfTable.Code = {
@@ -53,6 +55,16 @@ export class MappingDefComponent implements OnInit {
         return matchingCodeRow;
       });
     }
+
+    if (this.esploroActivityTypesMapping && this.esploroActivityTypes) {
+      let filteredRows = this.esploroActivityTypesMapping.filter(mappingRow => mappingRow.column1.includes(this.form.get("activityCategory").value) || mappingRow.column1.toLowerCase() == "all");
+      this.activityTypeList = filteredRows.map(mappingRow => {
+        let matchingCodeRow = this.esploroActivityTypes.find(codeRow => codeRow.code === mappingRow.column0);
+        return matchingCodeRow;
+      });
+    }
+
+
     this.selectedCategory = this.form.controls.assetCategory.value;
   }
 
@@ -113,12 +125,20 @@ export class MappingDefComponent implements OnInit {
 
   onActivityCategorySelected(event: MatSelectChange) {
     console.log(this.form.get("activityCategory").value);
-    let filteredRows = this.esploroActivityRolesMapping.filter(mappingRow => mappingRow.column1.includes(this.form.get("activityCategory").value) || mappingRow.column1.toLowerCase() == "all");
-    this.activityResearcherRoleList = filteredRows.map(mappingRow => {
+    let filteredRolesRows = this.esploroActivityRolesMapping.filter(mappingRow => mappingRow.column1.includes(this.form.get("activityCategory").value) || mappingRow.column1.toLowerCase() == "all");
+    this.activityResearcherRoleList = filteredRolesRows.map(mappingRow => {
       let matchingCodeRow = this.activityRoles.find(codeRow => codeRow.code === mappingRow.column0);
       return matchingCodeRow;
     });
     console.log(this.activityResearcherRoleList);
+
+    console.log(this.form.get("activityCategory").value);
+    let filteredRows = this.esploroActivityTypesMapping.filter(mappingRow => mappingRow.column1.includes(this.form.get("activityCategory").value) || mappingRow.column1.toLowerCase() == "all");
+    this.activityTypeList = filteredRows.map(mappingRow => {
+      let matchingCodeRow = this.esploroActivityTypes.find(codeRow => codeRow.code === mappingRow.column0);
+      return matchingCodeRow;
+    });
+    console.log(this.activityTypeList);
   }
 
 }

@@ -60,7 +60,7 @@
     <mat-form-field class="full-width">
       <mat-label translate>Settings.MappingDef.ActivityType</mat-label>
       <mat-select [formControl]="form.controls.activityType">
-        <mat-option *ngFor="let val of esploroActivityTypes" [value]="val.code">{{val.description}}</mat-option>
+        <mat-option *ngFor="let val of activityTypeList" [value]="val.code">{{val.description}}</mat-option>
       </mat-select>
     </mat-form-field>         
     <mat-form-field class="full-width">
