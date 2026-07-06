@@ -34,7 +34,7 @@ export class ConfigService {
 
   getCodeTable(name: string = null): Observable<ConfTable.CodeTable> {
     return this.restService.call( {
-      url: '/esploro/v1/researchconf/code-tables/' + name
+      url: '/almaws/v1/conf/code-tables/' + name
     }).pipe(map( results => results as ConfTable.CodeTable))
   }
 
